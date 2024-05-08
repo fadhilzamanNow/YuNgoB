@@ -41,7 +41,7 @@ export default function Home({user,signOut}) {
       <Text>Selamat datang, Bro {user.name}</Text>
       <View style={{flex : 1, width : "100%"}}>
       {users.map((user,index)=> {
-        return <ChatItem user={user} index={index}/>
+        return <ChatItem user={user} key={index}/>
       })}
       </View>
       <Button title='Keluar' onPress={signOut}/>
