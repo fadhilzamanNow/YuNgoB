@@ -9,6 +9,7 @@ import ChatRoom from './ChatRoom'
 import ChatItem from './ChatItem'
 import { useContext } from 'react'
 import { createContext } from 'react'
+import DaftarPage from './DaftarPage'
 
 
 export const ThemeContext = createContext()
@@ -30,6 +31,7 @@ export default function App() {
         <Stack.Screen name="LoginPage" component={LoginPage} />
         <Stack.Screen name="ChatRoom" component={ChatRoom} options={{ title : ''}}/>
         <Stack.Screen name="ChatItem" component={ChatItem}  />
+        <Stack.Screen name="DaftarPage" component={DaftarPage} />
       </Stack.Navigator>
       </ThemeContext.Provider>
     </NavigationContainer>

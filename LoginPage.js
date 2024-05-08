@@ -1,4 +1,4 @@
-import { View, Text, ActivityIndicator, Image } from 'react-native'
+import { View, Text, ActivityIndicator, Image, Alert, TextInput, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { Button } from 'react-native';
@@ -6,7 +6,7 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import Home from './Home';
-
+import { useNavigation } from '@react-navigation/native';
 
 
 
@@ -17,7 +17,7 @@ export default function LoginPage() {
   const [user, setUser] = useState();
   const [isAuthenticated,setIsAuthenticated] = useState(false);
 
-
+  const navigation = useNavigation();
   
 
   async function onGoogleButtonPress() {
@@ -38,7 +38,7 @@ export default function LoginPage() {
     return auth().signInWithCredential(googleCredential);
     }
     catch(e){
-      console.log("gagal masuk karena:", e)
+      Alert.alert('error',e.message)
     }
   }
 
@@ -46,9 +46,6 @@ export default function LoginPage() {
     GoogleSignin.configure({
       webClientId: '371395645741-v2o8p6k9m9pel096bpt61e27280d6qel.apps.googleusercontent.com',
     });
-
-    
-
   },[])
 
   useEffect(()=>{
@@ -90,7 +87,7 @@ export default function LoginPage() {
     <View style={{flex : 1}}>
       {isAuthenticated ? (<Home user={user} signOut={signOut}/>) : (
       <View style={{flex : 1, flexDirection: "column", alignItems : "center", backgroundColor : "white"}}>
-     <View style={{backgroundColor : "white", width : "100%", height : "50%", alignItems : "center"}}>
+     <View style={{backgroundColor : "white", width : "100%", height : "40%", alignItems : "center"}}>
         <Image
           source={(require('./assets/images/talk.jpg'))}
           style={{height : "100%",width : "100%"}}
@@ -114,12 +111,33 @@ export default function LoginPage() {
           YuNgoB
         </Text>
       </View>
-      <View style={{marginTop : 150}}>
-      <GoogleSigninButton
-          size={GoogleSigninButton.Size.Wide}
-          color={GoogleSigninButton.Color.White}
-          onPress={onGoogleButtonPress}
-        />
+      <View style={{marginTop : 50}}>
+        <View style={{flexDirection : "column", rowGap : 10}}>
+          <View style={{borderWidth : 1, borderRadius : 10, borderColor : 'gray', backgroundColor : "gray"}}>
+          <TextInput placeholder='Email'  />
+          </View>
+          <View style={{borderWidth : 1, borderRadius : 10, borderColor : 'gray', backgroundColor : "gray"}}>
+          <TextInput placeholder='Password' />
+          </View>
+          <View style={{flexDirection : "row", justifyContent : "center", height : 50 , backgroundColor : "red", alignItems : "center", borderRadius : 10, marginTop : 20}}>
+            <Text style={{color : "white", fontSize : 24, fontWeight : 700}}>Login</Text>
+          </View>
+          <View style={{flexDirection : "row", justifyContent : "center"}}>
+            <Text>Belum memiliki akun?</Text>
+            <TouchableOpacity onPress={()=> navigation.navigate('DaftarPage')}>
+            <Text style={{color:"red"}}> Daftar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={{marginTop : 10}}>
+          <GoogleSigninButton
+              size={GoogleSigninButton.Size.Wide}
+              color={GoogleSigninButton.Color.White}
+              onPress={onGoogleButtonPress}
+            />
+        </View>
+
       </View>      
     </View>
   )}
