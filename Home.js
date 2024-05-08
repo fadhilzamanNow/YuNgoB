@@ -8,7 +8,7 @@ import ChatItem from './ChatItem';
 
 
 export default function Home({user,signOut}) {
-   
+  const fake = "fake"
 
   let listUser = []
   const [users,setUsers] = useState([]);
@@ -34,14 +34,13 @@ export default function Home({user,signOut}) {
 
   },[])
     
-  console.log("data kita : ",user);
-  console.log("data yang lain : ",users);
+  
   return (
     <View style={{flex : 1, alignItems : "center"}}>
       <Text>Selamat datang, Bro {user.name}</Text>
       <View style={{flex : 1, width : "100%"}}>
-      {users.map((user,index)=> {
-        return <ChatItem user={user} key={index}/>
+      {users.map((users,index)=> {
+        return <ChatItem users={users} key={index} user={user}/>
       })}
       </View>
       <Button title='Keluar' onPress={signOut}/>
