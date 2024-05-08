@@ -2,13 +2,17 @@ import { View, Text, SafeAreaView, StatusBar, TextInput, TouchableOpacity } from
 import React from 'react'
 import { Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
+import  MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Feather from 'react-native-vector-icons/Feather'
+import AntDesign from 'react-native-vector-icons/AntDesign'
+
 
 const DaftarPage = () => {
 
     const navigation = useNavigation()
   return (
     <SafeAreaView style={{backgroundColor : "white", flex : 1}}>
-        <StatusBar barStyle="light-content" backgroundColor="white"  />
+              <StatusBar barStyle="dark-content" backgroundColor="white" />
 
         <View style={{flex : 1, alignItems : "center"}}>
         <View style={{
@@ -33,17 +37,29 @@ const DaftarPage = () => {
             }}>YuNgoB</Text>
         </View>
         <View style={{width : "80%", rowGap : 10}}>
-            <View style={{borderWidth : 1, borderRadius : 10}}>
-                <TextInput placeholder="Email"/>
+            <View style={{borderWidth : 1, borderRadius : 10, flexDirection : "row", alignItems : "center", columnGap : 5, borderColor : "lightgray"}}>
+                <View style={{marginLeft : 5}}>
+                    <MaterialCommunityIcons name='email-edit-outline' size={32} color="lightgray" />
+                </View>
+                <TextInput placeholder="Email" style={{flex : 1}}/>
             </View>
-            <View style={{borderWidth : 1, borderRadius : 10}}>
-                <TextInput placeholder="Username"/>
+            <View style={{borderWidth : 1, borderRadius : 10, flexDirection : "row", alignItems : "center", columnGap : 5, borderColor : "lightgray"}}>
+            <View style={{marginLeft : 5}}>
+                    <Feather name='user' size={32} color="lightgray" />
+                </View>
+                <TextInput placeholder="Username" style={{flex : 1}}/>
             </View>
-            <View style={{borderWidth : 1, borderRadius : 10}}>
-                <TextInput placeholder="Password"/>
+            <View style={{borderWidth : 1, borderRadius : 10, flexDirection : "row", alignItems : "center", columnGap : 5, borderColor : "lightgray"}}>
+                <View style={{marginLeft : 5}}>
+                    <Feather name='key' size={32} color="lightgray" />
+                </View>
+                <TextInput placeholder="Password" style={{flex : 1}}/>
             </View>
-            <View style={{borderWidth : 1, borderRadius : 10}}>
-                <TextInput placeholder="profileUrl"/>
+            <View style={{borderWidth : 1, borderRadius : 10, flexDirection : "row", alignItems : "center", columnGap : 5, borderColor : "lightgray"}}>
+                <View style={{marginLeft : 5}}>
+                    <AntDesign name='picture' size={32} color="lightgray" />
+                </View>
+                <TextInput placeholder="profileUrl" style={{flex : 1}}/>
             </View>
             <View style={{alignItems : "center"}}>
                 <View style={{flexDirection : "row"}}>

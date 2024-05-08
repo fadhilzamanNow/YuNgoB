@@ -1,4 +1,4 @@
-import { View, Text, ActivityIndicator, Image, Alert, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, ActivityIndicator, Image, Alert, TextInput, TouchableOpacity, StatusBar } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { Button } from 'react-native';
@@ -7,6 +7,8 @@ import firestore from '@react-native-firebase/firestore';
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import Home from './Home';
 import { useNavigation } from '@react-navigation/native';
+import Fontisto from "react-native-vector-icons/Fontisto"
+import FontAwesome6 from "react-native-vector-icons/FontAwesome6"
 
 
 
@@ -85,59 +87,79 @@ export default function LoginPage() {
   
   return (
     <View style={{flex : 1}}>
+      <StatusBar barStyle="dark-content" backgroundColor="white" />
       {isAuthenticated ? (<Home user={user} signOut={signOut}/>) : (
       <View style={{flex : 1, flexDirection: "column", alignItems : "center", backgroundColor : "white"}}>
-     <View style={{backgroundColor : "white", width : "100%", height : "40%", alignItems : "center"}}>
-        <Image
-          source={(require('./assets/images/talk.jpg'))}
-          style={{height : "100%",width : "100%"}}
-          resizeMode="contain"
-          
-        />
-      </View>
-      <View style={{flexDirection : "column" , "justifyContent" : "center", alignItems : "center"}}>
-        <Text style={{
-          fontSize : 32, 
-          color : "black",
-          fontWeight : "bold",
-          }}>
-            Masuk
-        </Text>
-        <Text style={{
-          fontSize : 48,
-          color : "red",
-          fontWeight : "bold"
-        }}>
-          YuNgoB
-        </Text>
-      </View>
-      <View style={{marginTop : 50}}>
-        <View style={{flexDirection : "column", rowGap : 10}}>
-          <View style={{borderWidth : 1, borderRadius : 10, borderColor : 'gray', backgroundColor : "gray"}}>
-          <TextInput placeholder='Email'  />
-          </View>
-          <View style={{borderWidth : 1, borderRadius : 10, borderColor : 'gray', backgroundColor : "gray"}}>
-          <TextInput placeholder='Password' />
-          </View>
-          <View style={{flexDirection : "row", justifyContent : "center", height : 50 , backgroundColor : "red", alignItems : "center", borderRadius : 10, marginTop : 20}}>
-            <Text style={{color : "white", fontSize : 24, fontWeight : 700}}>Login</Text>
-          </View>
-          <View style={{flexDirection : "row", justifyContent : "center"}}>
-            <Text>Belum memiliki akun?</Text>
-            <TouchableOpacity onPress={()=> navigation.navigate('DaftarPage')}>
-            <Text style={{color:"red"}}> Daftar</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+            <View style={{backgroundColor : "white", width : "100%", height : "40%", alignItems : "center" }}>
+                <Image
+                  source={(require('./assets/images/talk.jpg'))}
+                  style={{height : "100%",width : "100%"}}
+                  resizeMode="contain"
+                  
+                />
+              </View>
 
-        <View style={{marginTop : 10}}>
-          <GoogleSigninButton
-              size={GoogleSigninButton.Size.Wide}
-              color={GoogleSigninButton.Color.White}
-              onPress={onGoogleButtonPress}
-            />
-        </View>
+            <View style={{ flexDirection : "column" , "justifyContent" : "center", alignItems : "center", width: "80%", backgroundColor : "white"}}>
+              <Text style={{
+                fontSize : 32, 
+                color : "black",
+                fontWeight : "bold",
+                }}>
+                  Masuk
+              </Text>
+              <Text style={{
+                fontSize : 48,
+                color : "red",
+                fontWeight : "bold"
+              }}>
+                YuNgoB
+              </Text>
+          </View>
 
+          <View style={{ width : "80%", marginTop : 50}}>
+            <View style={{flexDirection : "column", rowGap : 10}}>
+              <View style={{borderWidth : 1, borderRadius : 10, borderColor : 'lightgray', backgroundColor : "white", flexDirection : "row", alignItems : "center", gap : 5}}>
+              <View style={{marginLeft : 5}}>
+              <Fontisto name="email" size={32} color="lightgray" />
+              </View>
+              <TextInput placeholder='Email' style={{flex : 1}} />
+              </View>
+              <View style={{borderWidth : 1, borderRadius : 10, borderColor : 'lightgray', backgroundColor : "white", flexDirection : "row", alignItems : "center", gap : 5}}>
+                <View style={{marginLeft : 5}}>
+                <FontAwesome6 name="unlock-keyhole" size={32} color="lightgray" />
+                </View>
+              <TextInput placeholder='Password' style={{flex :1}} />
+              </View>
+              <View style={{flexDirection : "row", justifyContent : "center", height : 50 , backgroundColor : "red", alignItems : "center", borderRadius : 10, marginTop : 20}}>
+                <Text style={{color : "white", fontSize : 24, fontWeight : 700}}>Login</Text>
+              </View>
+              <View style={{flexDirection : "row", justifyContent : "center"}}>
+                <Text>Belum memiliki akun?</Text>
+                <TouchableOpacity onPress={()=> navigation.navigate('DaftarPage')}>
+                <Text style={{color:"red"}}> Daftar</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+
+        <View style={{ flexDirection : "row", justifyContent : "center", alignItems : "center", columnGap : 10}}>
+          <TouchableOpacity
+          onPress={onGoogleButtonPress}
+          >
+          <Image 
+            source={require('./assets/images/google.png')}
+            style={{height : 60, width : 60, borderRadius : 10}}
+          />
+          </TouchableOpacity>
+          <TouchableOpacity>
+          <Image 
+            source={require('./assets/images/facebook.png')}
+            style={{height : 45, width : 45, borderRadius : 10}}
+          />
+          </TouchableOpacity>
+        </View>
+       
+        
       </View>      
     </View>
   )}
