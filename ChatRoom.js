@@ -1,4 +1,4 @@
-import { View, Text, TextInput } from 'react-native'
+import { View, Text, TextInput, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useRoute } from '@react-navigation/native'
 import { useContext } from 'react';
@@ -8,12 +8,15 @@ import { Timestamp } from 'firebase/firestore';
 import { Icon } from 'react-native-elements';
 import { useRef } from 'react';
 import { Button } from 'react-native';
+import {MessageList} from './MessageList';
+import MessageHeader from './MessageHeader';
+import { Image } from 'react-native';
 
 
 export default function ChatRoom() {
 
     const textRef = useRef('');
-    
+    const inputRef = useRef();
     const datas = useContext(infoUser);
     const route = useRoute();
     const {user,users} = route.params
@@ -68,6 +71,9 @@ export default function ChatRoom() {
             senderId : user.id,
             createdAt : firestore.Timestamp.now()
         }).then(()=> console.log("success"))
+        if(inputRef){
+            inputRef?.current?.clear();
+        }
     }
 
 
@@ -100,16 +106,26 @@ export default function ChatRoom() {
     
   return (
     <View style={{flex : 1}}>
-      <Text>{users.name}</Text>
       <View>
+        <MessageHeader users={users} />
+      </View>
+      <ScrollView>
+      <View style={{flex : 1, rowGap : 5 , marginBottom : 10, marginTop : 10}}>
         {text.map((texts,index)=>{
-            return <Text key={index}>{texts.messages}</Text>
+            return (<MessageList key={index} texts={texts} user={user}/>)
         })}
       </View>
-      <View style={{backgroundColor : "gray" , flexDirection : "row", alignItems : "center"
+      </ScrollView>
+      <View style={{backgroundColor : "white", 
+      flexDirection : "row", 
+      alignItems : "center",
+      borderRadius : 20,
+      marginHorizontal : 10,
+      marginVertical : 5
       }}>
-        <View style={{flex : 1}}>
-        <TextInput placeholder='tuliskan' onChangeText={handleChange} />
+        
+        <View style={{flex : 1, marginLeft : 15}}>
+        <TextInput placeholder='Tuliskan .....' onChangeText={handleChange}  ref={inputRef} style={{color : "black"}}/>
         </View>
         <View>
         <Icon
