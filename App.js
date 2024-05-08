@@ -47,7 +47,14 @@ export default function App() {
       webClientId: '371395645741-v2o8p6k9m9pel096bpt61e27280d6qel.apps.googleusercontent.com',
     });
 
+    
+
   },[])
+
+  useEffect(()=>{
+    console.log("refresh")
+    return;
+  })
 
   const sendDocument = async (nama) => {
     try {
@@ -55,7 +62,6 @@ export default function App() {
       const doc = await userRef.get();
   
       if (doc.exists) {
-        console.log('User already exists in Firestore');
         return; // User document already exists, no need to create a new one
       }
   
@@ -67,7 +73,6 @@ export default function App() {
         userId: nama.id
       });
   
-      console.log('User added to Firestore!');
     } catch (error) {
       console.error('Error adding user to Firestore:', error);
     }
@@ -75,7 +80,7 @@ export default function App() {
 
   let signOut = async () => {
     try {
-      await GoogleSignin.signOut().then(()=>console.log("berhasil keluar"))
+      await GoogleSignin.signOut().then(()=>console.log("berhasil keluar")).then(() => setIsAuthenticated(false))
     } catch (error) {
       console.error(error);
     }
@@ -83,7 +88,7 @@ export default function App() {
   
   return (
     <View style={{flex : 1}}>
-      {isAuthenticated ? (<Home user={user} setIsAuthenticated={setIsAuthenticated}/>) : (
+      {isAuthenticated ? (<Home user={user} signOut={signOut}/>) : (
       <View style={{flex : 1, flexDirection: "column", alignItems : "center", backgroundColor : "white"}}>
      <View style={{backgroundColor : "white", width : "100%", height : "50%", alignItems : "center"}}>
         <Image

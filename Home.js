@@ -1,11 +1,52 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import { Button } from 'react-native'
+import { useEffect, useState } from 'react'
+import firestore from '@react-native-firebase/firestore';
+import ChatItem from './ChatItem';
 
-export default function Home({user,setIsAuthenticated}) {
-    console.log("ini adalah : ", user)
+
+
+export default function Home({user,signOut}) {
+   
+
+  let listUser = []
+  const [users,setUsers] = useState([]);
+
+  useEffect(() => {
+   
+   firestore()
+  .collection('Users')
+  .where("userId","!=",user.id)
+  .get()
+  .then(querySnapshot => {
+    console.log('Total users: ', querySnapshot.size);
+
+    querySnapshot.forEach(documentSnapshot => {
+      //console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
+      listUser.push(documentSnapshot.data())
+    });
+  })
+  .then(() => {
+    setUsers(listUser)
+    console.log(users)
+  })
+
+  },[])
+    
+  console.log("data kita : ",user);
+  console.log("data yang lain : ",users);
   return (
-    <View style={{flex : 1, justifyContent : "center", alignItems : "center"}}>
-      <Text>Selamat datang, {user.name}</Text>
+    <View style={{flex : 1, alignItems : "center"}}>
+      <Text>Selamat datang, Bro {user.name}</Text>
+      <View style={{flex : 1, width : "100%"}}>
+      {users.map((user,index)=> {
+        return <ChatItem user={user} index={index}/>
+      })}
+      </View>
+      <Button title='Keluar' onPress={signOut}/>
+      <View>
+      </View>
     </View>
   )
 }
