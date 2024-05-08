@@ -1,9 +1,10 @@
-import { View, Text } from 'react-native'
+import { View, Text, SafeAreaView } from 'react-native'
 import React from 'react'
 import { Button } from 'react-native'
 import { useEffect, useState } from 'react'
 import firestore from '@react-native-firebase/firestore';
 import ChatItem from './ChatItem';
+import HomeHeader from './HomeHeader';
 
 
 
@@ -36,9 +37,11 @@ export default function Home({user,signOut}) {
     
   
   return (
-    <View style={{flex : 1, alignItems : "center"}}>
-      <Text>Selamat datang, Bro {user.name}</Text>
-      <View style={{flex : 1, width : "100%"}}>
+    <SafeAreaView style={{flex : 1}}>
+      <View >
+        <HomeHeader />
+      </View>
+      <View style={{flex : 1, backgroundColor : "white"}}>
       {users.map((users,index)=> {
         return <ChatItem users={users} key={index} user={user}/>
       })}
@@ -46,6 +49,6 @@ export default function Home({user,signOut}) {
       <Button title='Keluar' onPress={signOut}/>
       <View>
       </View>
-    </View>
+    </SafeAreaView>
   )
 }
