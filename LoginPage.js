@@ -48,6 +48,7 @@ export default function LoginPage() {
     await sendDocument(user).then(()=> console.log("selesai"))
     setUser(user);
     setIsAuthenticated(true)
+    console.log(user)
     return auth().signInWithCredential(googleCredential);
     }
     catch(e){
@@ -92,17 +93,35 @@ export default function LoginPage() {
     try {
       await GoogleSignin.signOut().then(()=>console.log("berhasil keluar")).then(() => setIsAuthenticated(false))
     } catch (error) {
+      auth().signOut()
       console.error(error);
     }
   };
 
 
-  const loginbiasa = (emaillog,passwordlog) => {
+  const loginbiasa = async (emaillog,passwordlog) => {
     try{
-      const emailCredential = firebase.auth.EmailAuthProvider.credential(email, password)
-      console.log(emailCredential);
+      let userInfo = {}
+      const emailId = await auth().signInWithEmailAndPassword(emaillog,passwordlog).then((data) => data.user.uid)
+      await firestore().collection('Users').doc(emailId).get().then((data) => data._data).then(
+        (data)=> {
+          userInfo.email = data.email,
+          userInfo.name = data.name,
+          userInfo.photo = data.profileUrl,
+          userInfo.id = data.userId
+
+          return userInfo;
+        }
+      ).then((userInfo) =>{
+        setUser(userInfo)
+        return {success : true}
+      }).then((success) => {
+        if(success) setIsAuthenticated(true)
+      })
+    
+        
     }catch(e){
-      Alert.alert("Gagal","gagal login")
+      Alert.alert("Gagal",e.message)
     }
   }
 

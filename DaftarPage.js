@@ -56,7 +56,7 @@ const DaftarPage = () => {
         .then((userCredential) => {
 
             const userId = userCredential.user.uid
-            firestore().collection('Users').add({
+            firestore().collection('Users').doc(userId).set({
                 email : email,
                 name : user,
                 profileUrl : profileUrl,
