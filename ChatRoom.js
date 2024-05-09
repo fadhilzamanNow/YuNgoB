@@ -11,10 +11,17 @@ import { Button } from 'react-native';
 import {MessageList} from './MessageList';
 import MessageHeader from './MessageHeader';
 import { Image } from 'react-native';
+import CryptoJS from "react-native-crypto-js";
+
 
 
 export default function ChatRoom() {
 
+    let cipherText = CryptoJS.AES.encrypt('my messaage', 'secret key 123').toString();
+    console.log("hash : ", cipherText)
+    let bytes = CryptoJS.AES.decrypt(cipherText,'secret key 123')
+    let originalText = bytes.toString(CryptoJS.enc.Utf8);
+    console.log("original :", originalText)
     const textRef = useRef('');
     const inputRef = useRef();
     const datas = useContext(infoUser);
@@ -64,10 +71,12 @@ export default function ChatRoom() {
     }
 
     const handleSend = () => { 
+
+        let encryptMessage = CryptoJS.AES.encrypt(messages, 'secret key 123').toString();
         let roomId = getRoomId(user.id,users.userId);
         firestore().collection('Rooms').doc(roomId).collection('Messages')
         .add({
-            messages : messages,
+            messages : encryptMessage,
             senderId : user.id,
             createdAt : firestore.Timestamp.now()
         }).then(()=> console.log("success"))
