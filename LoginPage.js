@@ -9,6 +9,8 @@ import Home from './Home';
 import { useNavigation } from '@react-navigation/native';
 import Fontisto from "react-native-vector-icons/Fontisto"
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6"
+import { useRef } from 'react';
+import "firebase/auth"
 
 
 
@@ -18,6 +20,15 @@ export default function LoginPage() {
   const [initializing, setInitializing] = useState(false);
   const [user, setUser] = useState();
   const [isAuthenticated,setIsAuthenticated] = useState(false);
+
+  const [email, setEmail] = useState('');
+  const [pass, setPass] = useState('')
+
+  const emailRef = useRef();
+  const passRef = useRef();
+
+  const inputEmail = useRef();
+  const inputPass = useRef();
 
   const navigation = useNavigation();
   
@@ -53,7 +64,7 @@ export default function LoginPage() {
   useEffect(()=>{
     console.log("refresh")
     return;
-  })
+  },[])
 
   const sendDocument = async (nama) => {
     try {
@@ -84,7 +95,31 @@ export default function LoginPage() {
       console.error(error);
     }
   };
+
+
+  const loginbiasa = (emaillog,passwordlog) => {
+    try{
+      const emailCredential = firebase.auth.EmailAuthProvider.credential(email, password)
+      console.log(emailCredential);
+    }catch(e){
+      Alert.alert("Gagal","gagal login")
+    }
+  }
+
+  const emaillogin = () => {
+    loginbiasa(email,pass)
+  }
   
+  const handleEmail = (text) => {
+    emailRef.current = text
+    setEmail(emailRef.current)
+  }
+
+  const handlePass = (text) => {
+    passRef.current = text 
+    setPass(passRef.current)
+
+  }
   return (
     <View style={{flex : 1}}>
       <StatusBar barStyle="dark-content" backgroundColor="white" />
@@ -120,19 +155,21 @@ export default function LoginPage() {
             <View style={{flexDirection : "column", rowGap : 10}}>
               <View style={{borderWidth : 1, borderRadius : 10, borderColor : 'lightgray', backgroundColor : "white", flexDirection : "row", alignItems : "center", gap : 5}}>
               <View style={{marginLeft : 5}}>
-              <Fontisto name="email" size={32} color="lightgray" />
+              <Fontisto name="email" size={32} color="lightgray"  />
               </View>
-              <TextInput placeholder='Email' style={{flex : 1}} />
+              <TextInput placeholder='Email' style={{flex : 1}} ref={inputEmail} onChangeText={handleEmail} />
               </View>
               <View style={{borderWidth : 1, borderRadius : 10, borderColor : 'lightgray', backgroundColor : "white", flexDirection : "row", alignItems : "center", gap : 5}}>
                 <View style={{marginLeft : 5}}>
                 <FontAwesome6 name="unlock-keyhole" size={32} color="lightgray" />
                 </View>
-              <TextInput placeholder='Password' style={{flex :1}} />
+              <TextInput placeholder='Password' style={{flex :1}} ref={inputPass} onChangeText={handlePass} secureTextEntry />
               </View>
+              <TouchableOpacity onPress={emaillogin}>
               <View style={{flexDirection : "row", justifyContent : "center", height : 50 , backgroundColor : "red", alignItems : "center", borderRadius : 10, marginTop : 20}}>
                 <Text style={{color : "white", fontSize : 24, fontWeight : 700}}>Login</Text>
               </View>
+              </TouchableOpacity>
               <View style={{flexDirection : "row", justifyContent : "center"}}>
                 <Text>Belum memiliki akun?</Text>
                 <TouchableOpacity onPress={()=> navigation.navigate('DaftarPage')}>
