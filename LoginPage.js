@@ -1,4 +1,4 @@
-import { View, Text, ActivityIndicator, Image, Alert, TextInput, TouchableOpacity, StatusBar } from 'react-native'
+import { View, Text, ActivityIndicator, Image, Alert, TextInput, TouchableOpacity, StatusBar, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { Button } from 'react-native';
@@ -151,19 +151,13 @@ export default function LoginPage() {
             style={{height : 60, width : 60, borderRadius : 10}}
           />
           </TouchableOpacity>
-          <TouchableOpacity>
-          <Image 
-            source={require('./assets/images/facebook.png')}
-            style={{height : 45, width : 45, borderRadius : 10}}
-          />
-          </TouchableOpacity>
+          
         </View>
        
         
       </View>      
     </View>
   )}
-    
     </View>
   )
 }
