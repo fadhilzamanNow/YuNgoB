@@ -11,6 +11,7 @@ import Fontisto from "react-native-vector-icons/Fontisto"
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6"
 import { useRef } from 'react';
 import "firebase/auth"
+import Layout from './Layout';
 
 
 
@@ -142,7 +143,7 @@ export default function LoginPage() {
   return (
     <View style={{flex : 1}}>
       <StatusBar barStyle="dark-content" backgroundColor="white" />
-      {isAuthenticated ? (<Home user={user} signOut={signOut}/>) : (
+      {isAuthenticated ? (<Layout user={user} signOut={signOut}/>) : (
       <View style={{flex : 1, flexDirection: "column", alignItems : "center", backgroundColor : "white"}}>
             <View style={{backgroundColor : "white", width : "100%", height : "40%", alignItems : "center" }}>
                 <Image

@@ -8,9 +8,9 @@ import HomeHeader from './HomeHeader';
 
 
 
-export default function Home({user,signOut}) {
+export default function Home({route}) {
   const fake = "fake"
-
+  const {user,signOut} = route.params;
   let listUser = []
   const [users,setUsers] = useState([]);
 
