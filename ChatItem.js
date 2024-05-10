@@ -41,11 +41,14 @@ export default function ChatItem({users,user}) {
         if(lastMessage){
             let pesan = CryptoJS.AES.decrypt(lastMessage.messages,'secret key 123')
             let decryptPesan = pesan.toString(CryptoJS.enc.Utf8)
+            let decryptPesan2
+                decryptPesan.length > 27 ? decryptPesan2=`${decryptPesan.slice(0,26)}...` : decryptPesan2= decryptPesan
             if(user.id == lastMessage.senderId){
-                return "You : " + decryptPesan
+                
+                return "You : " + `${decryptPesan2}`
             }
             else{
-                return decryptPesan
+                return decryptPesan2
             }
         }else{
             return "Ayo mulai percakapanmu dengan " + users.name

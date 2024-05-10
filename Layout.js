@@ -9,6 +9,8 @@ import Entypo from "react-native-vector-icons/Entypo"
 import Fontisto from "react-native-vector-icons/Fontisto"
 
 import Settings from './Settings';
+import { AddFriend } from './AddFriend';
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 
 const Tab = createBottomTabNavigator();
 
@@ -27,6 +29,17 @@ const Layout = ({user,signOut}) => {
             
         }}
         
+        />
+        <Tab.Screen name='AddFriend' component={AddFriend} initialParams={{user : user}} 
+        options={{
+            title : "Add Friends",
+            tabBarIcon : ({color,size}) => {
+                return <FontAwesome5 name="user-friends" color={color} size={size} />
+            },
+            tabBarActiveTintColor : "red",
+            headerTitleAlign : "center"
+            
+        }}  
         />
 
         <Tab.Screen name='Settings' component={Settings} initialParams={{user : user, signOut : signOut}} options={{

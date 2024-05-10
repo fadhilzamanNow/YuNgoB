@@ -4,7 +4,6 @@ import { Button } from 'react-native'
 import { Image } from 'react-native'
 export default function Settings({route}) {
     const {user,signOut} = route.params
-    console.log(user.photo)
   return (
     <View style={{flex :1}}>
     <View style={{flex : 1, backgroundColor : "white", borderTopWidth : 1, borderTopColor : "lightgray", alignItems : "center"}}>

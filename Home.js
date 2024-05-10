@@ -33,6 +33,37 @@ export default function Home({route}) {
   })
 
   },[])
+
+
+  let [listFriend,setListFriend] = useState([])
+
+  useEffect(() => {
+
+    
+    let unsubscribe = firestore().collection('Users').doc(user.id).collection('Friends').onSnapshot(
+        (querySnapshot) => {
+          const friendsData = [] 
+  
+          querySnapshot.forEach((documentSnapshot) => {
+            // Process each friend document
+            friendsData.push(documentSnapshot.data())
+  
+          })
+          setListFriend(friendsData);
+        }
+      )
+    
+
+      return () => unsubscribe()
+    
+    
+
+  },[])
+
+  useEffect(()=> {
+
+    console.log("test")
+  },[listFriend])
   
     
   
@@ -40,7 +71,7 @@ export default function Home({route}) {
     <SafeAreaView style={{flex : 1, backgroundColor : "white"}}>
       <View style={{flex : 1}} >
       <ScrollView>
-        <HomeHeader users={users} user={user} />
+        <HomeHeader users={users} user={user} friends={listFriend} />
     </ScrollView>
       </View>
       

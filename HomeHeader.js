@@ -3,7 +3,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import AntDesign from "react-native-vector-icons/AntDesign"
 import { ChatContainer } from './ChatContainer'
 
-const HomeHeader = ({users,user}) => {
+const HomeHeader = ({users,user,friends}) => {
   const inputRef = useRef()
   const [filteredUsers,setFilteredUsers] = useState(users);
   const [search,setSearch] =useState('expess')
@@ -28,7 +28,6 @@ const HomeHeader = ({users,user}) => {
     console.log(inputRef.current)
   }
 
-  console.log(users)
 
   return (
     <View>
@@ -62,7 +61,7 @@ const HomeHeader = ({users,user}) => {
       
     </View>
       <View style={{flex : 1, backgroundColor : "white"}}>
-          <ChatContainer users={filteredUsers} user={user}/>
+          <ChatContainer users={filteredUsers} user={user} friends={friends}/>
         </View>
         </View>
   )

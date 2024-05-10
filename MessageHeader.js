@@ -6,7 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import { useNavigation } from '@react-navigation/native'
 
 const MessageHeader = ({users}) => {
-    console.log(users)
+    
     const navigation = useNavigation();
   return (
 
