@@ -12,8 +12,16 @@ const addFriend = () => {
         name : info.name,
         profileUrl : info.profileUrl,
         userId : info.userId
-    }).then(() => console.log('berhasil'))
-    
+    }).then(() => console.log('berhasil menambahkan sebagai teman'))
+
+
+    firestore().collection('Users').doc(info.userId).collection('Pending').doc(user.id).set({
+        email : user.email,
+        name : user.name,
+        profileUrl : user.photo,
+        userId : user.id
+    }).then(() => console.log('berhasil menambahkan sebagai pending'))
+      
 }
   return (
     <View>
