@@ -46,10 +46,9 @@ export default function LoginPage() {
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
     // Sign-in the user with the credential
     
-    await sendDocument(user).then(()=> console.log("selesai"))
+    await sendDocument(user)
     setUser(user);
     setIsAuthenticated(true)
-    console.log(user)
     return auth().signInWithCredential(googleCredential);
     }
     catch(e){
@@ -63,10 +62,7 @@ export default function LoginPage() {
     });
   },[])
 
-  useEffect(()=>{
-    console.log("refresh")
-    return;
-  },[])
+  
 
   const sendDocument = async (nama) => {
     try {
@@ -92,7 +88,7 @@ export default function LoginPage() {
 
   let signOut = async () => {
     try {
-      await GoogleSignin.signOut().then(()=>console.log("berhasil keluar")).then(() => setIsAuthenticated(false))
+      await GoogleSignin.signOut().then(() => setIsAuthenticated(false))
     } catch (error) {
       auth().signOut()
       console.error(error);
@@ -141,7 +137,7 @@ export default function LoginPage() {
 
   }
   return (
-    <View style={{flex : 1}}>
+    <View style={{flex : 1, backgroundColor : "white"}}>
       <StatusBar barStyle="dark-content" backgroundColor="white" />
       {isAuthenticated ? (<Layout user={user} signOut={signOut}/>) : (
       <View style={{flex : 1, flexDirection: "column", alignItems : "center", backgroundColor : "white"}}>

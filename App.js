@@ -10,6 +10,7 @@ import ChatItem from './ChatItem'
 import { useContext } from 'react'
 import { createContext } from 'react'
 import DaftarPage from './DaftarPage'
+import Home from './Home'
 
 
 export const ThemeContext = createContext()

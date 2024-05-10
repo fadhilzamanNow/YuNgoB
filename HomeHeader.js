@@ -1,29 +1,70 @@
 import { View, Text, Image, TouchableOpacity, Alert, TextInput } from 'react-native'
-import React from 'react'
+import React, { useRef, useState, useEffect } from 'react'
+import AntDesign from "react-native-vector-icons/AntDesign"
+import { ChatContainer } from './ChatContainer'
 
-const HomeHeader = () => {
+const HomeHeader = ({users,user}) => {
+  const inputRef = useRef()
+  const [filteredUsers,setFilteredUsers] = useState(users);
+  const [search,setSearch] =useState('expess')
+  
+
+  const handleSearch = (text) => {
+    inputRef.current = text
+    const filteredData = users.filter((users)=> {
+      return users.name.toLowerCase().includes(inputRef.current.toLowerCase());
+    })
+    setFilteredUsers(filteredData)
+    console.log("data : ",filteredUsers)
+
+  }
+
+  useEffect(()=>{
+    setFilteredUsers(users)
+  },[users])
+
+  const handleFind = (text) => {
+    inputRef.current = text
+    console.log(inputRef.current)
+  }
+
+  console.log(users)
+
   return (
-    <View style={{padding: 5, backgroundColor : "white", alignItems : "center"}}>
-      <Text style={{fontSize : 44, fontWeight : 600, color : "red"}} >YuNgoB</Text>
+    <View>
+      <View>
+
+      </View>
+    <View style={{padding: 5, backgroundColor : "white", alignItems : "center", borderBottomWidth : 1, borderBottomColor : "lightgray"}}>
+      
       
     
       <View style={{backgroundColor : "white", 
       flexDirection : "row", 
       alignItems : "center",
-      borderRadius : 20,
-      marginHorizontal : 10,
-      marginVertical : 5,
+      borderRadius : 5,
+      marginHorizontal : 20,
+      marginVertical : 1,
       borderWidth : 1,
-      borderColor : "gray"
-      }}>
+      borderColor : "lightgray",
+      padding : 5,
+      borderBottomWidth : 1,
+    }}>
         
-        <View style={{flex : 1, marginLeft : 15, padding : 0}}>
-        <TextInput placeholder='Tuliskan .....' style={{color : "white"}} placeholderTextColor="gray" />
+        <View style={{flex : 1, padding : 0, flexDirection : "row", justifyContent : "center", alignItems : "center", marginHorizontal : 10}}>
+        <TextInput placeholder='Tuliskan .....' style={{color : "black",height : 20, padding : 0, flex : 1}} placeholderTextColor="gray" onChangeText={handleSearch} ref={inputRef} />
+        <TouchableOpacity onPress={() => Alert.alert('Pencarian dimulai')}>
+        <AntDesign name="search1" />
+        </TouchableOpacity>
         </View>
         
       </View>
       
     </View>
+      <View style={{flex : 1, backgroundColor : "white"}}>
+          <ChatContainer users={filteredUsers} user={user}/>
+        </View>
+        </View>
   )
 }
 

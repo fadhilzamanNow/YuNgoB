@@ -1,7 +1,6 @@
 import { View, Text, TextInput, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useRoute } from '@react-navigation/native'
-import { useContext } from 'react';
 import { infoUser } from './ChatItem';
 import firestore from "@react-native-firebase/firestore"
 import { Timestamp } from 'firebase/firestore';
@@ -24,7 +23,6 @@ export default function ChatRoom() {
     console.log("original :", originalText)
     const textRef = useRef('');
     const inputRef = useRef();
-    const datas = useContext(infoUser);
     const route = useRoute();
     const {user,users} = route.params
 
@@ -85,7 +83,7 @@ export default function ChatRoom() {
         }
     }
 
-
+    
     
 
     useEffect(()=>{
@@ -112,13 +110,20 @@ export default function ChatRoom() {
         return () => unsubscribe();
 
     },[])
+
+    
+
+    
+    
+
+    const scrollViewRef = useRef();
     
   return (
-    <View style={{flex : 1}}>
-      <View>
+    <View style={{flex : 1, backgroundColor : "white"}}>
+      <View style={{borderBottomWidth : 1, borderBottomColor : "lightgray"}}>
         <MessageHeader users={users} />
       </View>
-      <ScrollView>
+      <ScrollView ref={scrollViewRef}>
       <View style={{flex : 1, rowGap : 5 , marginBottom : 10, marginTop : 10}}>
         {text.map((texts,index)=>{
             return (<MessageList key={index} texts={texts} user={user}/>)
@@ -128,22 +133,27 @@ export default function ChatRoom() {
       <View style={{backgroundColor : "white", 
       flexDirection : "row", 
       alignItems : "center",
-      borderRadius : 20,
+      borderRadius : 10,
       marginHorizontal : 10,
-      marginVertical : 5
+      marginVertical : 5,
+      borderColor : "gray",
+      borderWidth : 1,
+      marginHorizontal : 20,
+      height : 40,
+      
       }}>
         
-        <View style={{flex : 1, marginLeft : 15}}>
-        <TextInput placeholder='Tuliskan .....' onChangeText={handleChange}  ref={inputRef} style={{color : "black"}}/>
+        <View style={{flex : 1, marginLeft : 10}}>
+        <TextInput placeholder='Tuliskan .....' onChangeText={handleChange}  ref={inputRef} style={{color : "black", padding : 0}}/>
         </View>
-        <View>
+        <View style={{marginRight : 10}}>
         <Icon
-            raised
-            name='heartbeat'
-            type='font-awesome'
-            color='#f50'
+            
+            name='send'
+            type='Feather'
+            color='red'
             onPress={handleSend} 
-            size={15}/>
+            size={20}/>
         </View>
       </View>
     </View>
