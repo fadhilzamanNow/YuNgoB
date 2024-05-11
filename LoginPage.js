@@ -48,8 +48,11 @@ export default function LoginPage() {
     // Sign-in the user with the credential
     
     await sendDocument(user)
-    await takeData(user)
-
+    firestore().collection('Users').doc(user.id).onSnapshot((data) => {
+      setUser(data.data())
+      setIsAuthenticated(true)
+      console.log("set in data :" , user)
+    })
     return auth().signInWithCredential(googleCredential);
     }
     catch(e){
@@ -57,28 +60,27 @@ export default function LoginPage() {
     }
   }
 
+  useEffect(() => {
+    if(user){
+    firestore().collection('Users').doc(user.id).onSnapshot((data) => {
+      setUser(data.data())
+      setIsAuthenticated(true)
+      console.log("set in data :" , user)
+    })
+   }
+  },[user])
+
   useEffect(()=>{
     GoogleSignin.configure({
       webClientId: '371395645741-v2o8p6k9m9pel096bpt61e27280d6qel.apps.googleusercontent.com',
     });
   },[])
 
-  useEffect(() => {
-    if(inData) {
-      setIsAuthenticated(true)
-      console.log("use Effect Data", inData)
-    }
-  },[inData])
+  
 
   
   const takeData = async (users) => {
-    firestore().collection('Users').doc(users.id).get().then((data) => {
-      setUser(data.data())
-      return {success : true};
-    }).then((success) => {
-      setIsAuthenticated(user)
-    })
-
+    
   }
   const sendDocument = async (nama) => {
     try {
@@ -120,8 +122,8 @@ export default function LoginPage() {
         (data)=> {
           userInfo.email = data.email,
           userInfo.name = data.name,
-          userInfo.photo = data.profileUrl,
-          userInfo.id = data.userId
+          userInfo.profileUrl = data.profileUrl,
+          userInfo.userId = data.userId
 
           return userInfo;
         }

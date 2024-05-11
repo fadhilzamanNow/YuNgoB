@@ -35,16 +35,19 @@ export function AddFriend({route}) {
      
        },[])
 
-    
+    const [req, setReq] = useState(false);
        
     let handleSend = () => {
         const filteredFriend = users.filter((friend)=> {
             return friend.email.toLowerCase() == filter.toLowerCase()
         })
 
-        setFilterUser(filteredFriend);
+        setFilterUser(filteredFriend); 
+        console.log("target : ",filterUser[0])
+
         
     }
+
 
     const inputChange = useRef()
     let handleChange = (text) => {
@@ -72,7 +75,10 @@ export function AddFriend({route}) {
         
       </View>
         <View style={{marginTop : 20, flex : 1}}>
-                <AddFriendList filterUser={filterUser} user={user}/>    
+                {filterUser.length == 1 ? (
+                  <AddFriendList filterUser={filterUser} user={user}/>  
+                ) : (null)}
+                  
             </View>
     </View>
   )
