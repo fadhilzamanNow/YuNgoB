@@ -20,7 +20,7 @@ export default function Home({route}) {
    
    firestore()
   .collection('Users')
-  .where("userId","!=",user.id)
+  .where("userId","!=",user.userId)
   .get()
   .then(querySnapshot => {
 
@@ -40,7 +40,7 @@ export default function Home({route}) {
   useEffect(() => {
 
     
-    let unsubscribe = firestore().collection('Users').doc(user.id).collection('Friends').onSnapshot(
+    let unsubscribe = firestore().collection('Users').doc(user.userId).collection('Friends').onSnapshot(
         (querySnapshot) => {
           const friendsData = [] 
   
@@ -62,7 +62,6 @@ export default function Home({route}) {
 
   useEffect(()=> {
 
-    console.log("test")
   },[listFriend])
   
     

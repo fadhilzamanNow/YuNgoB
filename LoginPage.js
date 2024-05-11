@@ -24,6 +24,7 @@ export default function LoginPage() {
 
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('')
+  const [inData,setInData] = useState();
 
   const emailRef = useRef();
   const passRef = useRef();
@@ -47,8 +48,8 @@ export default function LoginPage() {
     // Sign-in the user with the credential
     
     await sendDocument(user)
-    setUser(user);
-    setIsAuthenticated(true)
+    await takeData(user)
+
     return auth().signInWithCredential(googleCredential);
     }
     catch(e){
@@ -62,8 +63,23 @@ export default function LoginPage() {
     });
   },[])
 
-  
+  useEffect(() => {
+    if(inData) {
+      setIsAuthenticated(true)
+      console.log("use Effect Data", inData)
+    }
+  },[inData])
 
+  
+  const takeData = async (users) => {
+    firestore().collection('Users').doc(users.id).get().then((data) => {
+      setUser(data.data())
+      return {success : true};
+    }).then((success) => {
+      setIsAuthenticated(user)
+    })
+
+  }
   const sendDocument = async (nama) => {
     try {
       const userRef = firestore().collection('Users').doc(nama.id);
@@ -113,7 +129,9 @@ export default function LoginPage() {
         setUser(userInfo)
         return {success : true}
       }).then((success) => {
-        if(success) setIsAuthenticated(true)
+        if(success) setIsAuthenticated(true) 
+      }).then(() => {
+        console.log("berhasil masuk : ", user)
       })
     
         
@@ -139,7 +157,7 @@ export default function LoginPage() {
   return (
     <View style={{flex : 1, backgroundColor : "white"}}>
       <StatusBar barStyle="dark-content" backgroundColor="white" />
-      {isAuthenticated ? (<Layout user={user} signOut={signOut}/>) : (
+      {isAuthenticated ? (<Layout user={user} inData={inData} signOut={signOut}/>) : (
       <View style={{flex : 1, flexDirection: "column", alignItems : "center", backgroundColor : "white"}}>
             <View style={{backgroundColor : "white", width : "100%", height : "40%", alignItems : "center" }}>
                 <Image

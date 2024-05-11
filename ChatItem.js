@@ -21,7 +21,7 @@ export default function ChatItem({users,user}) {
 
     useEffect(() => {
         
-        let roomId = getRoomId(user.id,users.userId); 
+        let roomId = getRoomId(user.userId,users.userId); 
         let cari = firestore().collection('Rooms').doc(roomId).collection('Messages').orderBy("createdAt","desc")
         .onSnapshot(document => {
             let pesan = document.docs.map(doc => {
@@ -43,7 +43,7 @@ export default function ChatItem({users,user}) {
             let decryptPesan = pesan.toString(CryptoJS.enc.Utf8)
             let decryptPesan2
                 decryptPesan.length > 27 ? decryptPesan2=`${decryptPesan.slice(0,26)}...` : decryptPesan2= decryptPesan
-            if(user.id == lastMessage.senderId){
+            if(user.userId == lastMessage.senderId){
                 
                 return "You : " + `${decryptPesan2}`
             }
@@ -73,7 +73,7 @@ export default function ChatItem({users,user}) {
             <View style={{paddingVertical : 20, borderBottomWidth : 1, flexDirection : "row", alignItems : "center", marginHorizontal : 20, borderBottomColor : "lightgray"}}>
                 <View style={{flex : 1, flexDirection : "row", alignItems : "center"}}>
 
-                    <View style={{backgroundColor : "black", height : 40, width : 40, marginLeft : 20, borderRadius : 9999}}>
+                    <View style={{backgroundColor : "black", height : 40, width : 40, marginLeft : 20 , borderRadius : 9999}}>
                         <Image 
                             source={{uri : users.profileUrl}}
                             style={{height : 40, width : 40, borderRadius : 9999}}

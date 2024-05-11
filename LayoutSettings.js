@@ -8,6 +8,7 @@ import Dummy from './Dummy';
 import Dummy2 from './Dummy2';
 import Settings from './Settings';
 import Fontisto from "react-native-vector-icons/Fontisto"
+import Pendings from './Pendings';
 
 
 const Drawer = createDrawerNavigator();
@@ -23,8 +24,22 @@ export default function LayoutSettings({route}) {
             
             <Drawer.Screen name="Settings" component={Settings} initialParams={{user : user, signOut : signOut}} options={{
                 headerTitleAlign : "center",
-                headerTitleStyle : {color : "black", fontWeight : 700}
+                headerTitleStyle : {color : "black", fontWeight : 500},
+                drawerActiveTintColor : "red",
+                headerTintColor : "red",
+                headerTitleStyle : {color : "red"}
+
+                
             }} />
+            <Drawer.Screen name="Pendings" component={Pendings} initialParams={{user : user, signOut : signOut}} options={{
+                headerTitleAlign : "center",
+                headerTitleStyle : {color : "black", fontWeight : 500},
+                drawerActiveTintColor : "red",
+                headerTintColor : "red",
+                headerTitleStyle : {color : "red"}
+            }}
+                
+            />
       </Drawer.Navigator>
       
   )

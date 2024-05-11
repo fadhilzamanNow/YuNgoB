@@ -5,23 +5,23 @@ import { ChatContainer } from './ChatContainer'
 
 const HomeHeader = ({users,user,friends}) => {
   const inputRef = useRef()
-  const [filteredUsers,setFilteredUsers] = useState(users);
+  const [filteredUsers,setFilteredUsers] = useState(friends);
   const [search,setSearch] =useState('expess')
   
 
   const handleSearch = (text) => {
     inputRef.current = text
-    const filteredData = users.filter((users)=> {
-      return users.name.toLowerCase().includes(inputRef.current.toLowerCase());
+    const filteredData = friends.filter((friends)=> {
+      return friends.name.toLowerCase().includes(inputRef.current.toLowerCase());
     })
     setFilteredUsers(filteredData)
-    console.log("data : ",filteredUsers)
-
+    console.log(filteredUsers)
   }
 
   useEffect(()=>{
-    setFilteredUsers(users)
-  },[users])
+    setFilteredUsers(friends)
+    console.log("users")
+  },[friends])
 
   const handleFind = (text) => {
     inputRef.current = text
@@ -61,7 +61,7 @@ const HomeHeader = ({users,user,friends}) => {
       
     </View>
       <View style={{flex : 1, backgroundColor : "white"}}>
-          <ChatContainer users={filteredUsers} user={user} friends={friends}/>
+          <ChatContainer users={filteredUsers} user={user} friends={filteredUsers}/>
         </View>
         </View>
   )

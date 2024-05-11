@@ -48,7 +48,7 @@ export default function ChatRoom() {
         
         
 
-        let roomId = getRoomId(user.id,users.userId);
+        let roomId = getRoomId(user.userId,users.userId);
         firestore()
             .collection('Rooms')
             .doc(roomId)
@@ -71,11 +71,11 @@ export default function ChatRoom() {
     const handleSend = () => { 
 
         let encryptMessage = CryptoJS.AES.encrypt(messages, 'secret key 123').toString();
-        let roomId = getRoomId(user.id,users.userId);
+        let roomId = getRoomId(user.userId,users.userId);
         firestore().collection('Rooms').doc(roomId).collection('Messages')
         .add({
             messages : encryptMessage,
-            senderId : user.id,
+            senderId : user.userId,
             createdAt : firestore.Timestamp.now()
         }).then(()=> console.log("success"))
         if(inputRef){
@@ -87,7 +87,7 @@ export default function ChatRoom() {
     
 
     useEffect(()=>{
-        let roomId = getRoomId(user.id,users.userId);
+        let roomId = getRoomId(user.userId,users.userId);
 
         const unsubscribe = firestore()
         .collection('Rooms')

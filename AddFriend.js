@@ -14,22 +14,24 @@ export function AddFriend({route}) {
     const [filterUser,setFilterUser] = useState(users)
     const [filter,setFilter] = useState('')
     useEffect(() => {
-        
+        let listAvailable = []
+
+        firestore().collection('Users').doc(user.userId).collection('Friends').onSnapshot((querySnapshot) => {
+          querySnapshot.forEach((document) => {
+              listAvailable.push(document.id)
+          })
+          console.log("list Available : ", listAvailable)
+        })
         
         firestore()
        .collection('Users')
-       .where("userId","!=",user.id)
-       .get()
-       .then(querySnapshot => {
-        
-        
-         querySnapshot.forEach(documentSnapshot => {
-           listUser.push(documentSnapshot.data())
-         });
+       .where("userId","!=",user.userId)
+       .onSnapshot(querySnapshot => {
+        const filteredUsers = querySnapshot.docs.filter(doc => !listAvailable.includes(doc.id));
+        const userList = filteredUsers.map(doc => doc.data());
+        setUsers(userList);     
        })
-       .then(() => {
-         setUsers(listUser)
-       })
+       
      
        },[])
 

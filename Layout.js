@@ -7,6 +7,7 @@ import Dummy2 from './Dummy2';
 import HomeHeader from './HomeHeader';
 import Entypo from "react-native-vector-icons/Entypo"
 import Fontisto from "react-native-vector-icons/Fontisto"
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
 
 import Settings from './Settings';
 import { AddFriend } from './AddFriend';
@@ -20,13 +21,13 @@ const Layout = ({user,signOut}) => {
     <Tab.Navigator initialRouteName='Home'>
         <Tab.Screen name='Home' component={Home} initialParams={{user : user, signOut : signOut}} options={{
             title : "YuNgoB",
-            headerTitleStyle : {color : "red", fontWeight : 700},
+            headerTitleStyle : {color : "red"},
             headerTitleAlign : "center",
-            tabBarLabel : 'Home',
+            tabBarLabel : 'Pesan',
             tabBarIcon : ({focused,size,color}) => {
-                return <Entypo name='home' size={size} color={color}/>
+                return <MaterialCommunityIcons name='message-processing' size={size} color={color}/>
             },
-            tabBarActiveTintColor : "red"
+            tabBarActiveTintColor : "red",
             
         }}
         
@@ -34,6 +35,7 @@ const Layout = ({user,signOut}) => {
         <Tab.Screen name='AddFriend' component={AddFriend} initialParams={{user : user}} 
         options={{
             title : "Add Friends",
+            headerTintColor : "red",
             tabBarIcon : ({color,size}) => {
                 return <FontAwesome5 name="user-friends" color={color} size={size} />
             },
@@ -44,6 +46,7 @@ const Layout = ({user,signOut}) => {
         />
         <Tab.Screen name='LayoutSettings' component={LayoutSettings} initialParams={{user : user, signOut : signOut}} options={{
             headerShown : false,
+            title : "Settings",
             tabBarIcon : ({focused,color,size}) => {
                 return <Fontisto name="player-settings" size={size} color={color}/>
             },

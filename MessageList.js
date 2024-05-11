@@ -10,7 +10,7 @@ export function MessageList({texts,user}) {
   let waktukirim = new Date(texts.createdAt.seconds*1000).toTimeString().split(' ')[0].slice(0,5)
   
 
-  if(texts.senderId ==  user.id){
+  if(texts.senderId ==  user.userId){
     return (
         <View style={{flexDirection : "row", justifyContent : "flex-end", height : "auto"}} >
             <View style={{flexDirection : "column", padding : 10, backgroundColor : "red", justifyContent : "center", alignItems : "flex-end", borderRadius : 5, marginRight : 10, marginLeft : 50,borderColor : "lightgray", borderWidth :1}}>
