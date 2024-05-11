@@ -140,7 +140,7 @@ const DaftarPage = () => {
                 <View style={{marginLeft : 5}}>
                     <Feather name='key' size={32} color="lightgray" />
                 </View>
-                <TextInput placeholder="Password" style={{flex : 1}} onChangeText={handlePassword} ref={inputPass}/>
+                <TextInput placeholder="Password" style={{flex : 1}} onChangeText={handlePassword} ref={inputPass} secureTextEntry/>
             </View>
             <View style={{borderWidth : 1, borderRadius : 10, flexDirection : "row", alignItems : "center", columnGap : 5, borderColor : "lightgray"}}>
                 <View style={{marginLeft : 5}}>

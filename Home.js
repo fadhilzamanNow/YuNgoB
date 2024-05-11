@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, ScrollView } from 'react-native'
+import { View, Text, SafeAreaView, ScrollView, Pressable, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { Button } from 'react-native'
 import { useEffect, useState } from 'react'
@@ -7,6 +7,7 @@ import ChatItem from './ChatItem';
 import HomeHeader from './HomeHeader';
 import {ChatContainer} from './ChatContainer';
 import { useRef } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 
 
@@ -15,6 +16,9 @@ export default function Home({route}) {
   const {user,signOut} = route.params;
   let listUser = []
   const [users,setUsers] = useState([]);
+
+  const navigation = useNavigation()
+
 
   useEffect(() => {
    
@@ -70,7 +74,20 @@ export default function Home({route}) {
     <SafeAreaView style={{flex : 1, backgroundColor : "white"}}>
       <View style={{flex : 1}} >
       <ScrollView>
-        <HomeHeader users={users} user={user} friends={listFriend} />
+        {listFriend.length == 0 ? (
+          <View style={{borderTopWidth : 1, borderTopColor : "lightgray", flex : 1, justifyContent : "center", alignItems : "center"}}>
+            <Text>Selamat Datang, {user.name} </Text>
+            <Text>Kamu masih belum memiliki Teman, Ayo Cari Teman</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('AddFriend',{user : user})}>
+            <View style={{marginTop : 20, borderWidth : 1, borderRadius : 5, padding : 10, backgroundColor : "red", borderColor : "red"}}>
+                <Text style={{color : "white"}}>Mulai Perjalananmu di YuNgoB</Text>
+            </View>
+            </TouchableOpacity>
+          </View>
+
+        ) : (
+                  <HomeHeader users={users} user={user} friends={listFriend} />
+        )}
     </ScrollView>
       </View>
       

@@ -17,7 +17,7 @@ const MessageHeader = ({users}) => {
       
         size={24}
         color="black"
-        onPress={()=> navigation.navigate('Home')}
+        onPress={()=> navigation.goBack()}
       />
     </View>
     <View style={{backgroundColor:"white"}}>

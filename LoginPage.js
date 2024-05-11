@@ -138,12 +138,27 @@ export default function LoginPage() {
     
         
     }catch(e){
-      Alert.alert("Gagal",e.message)
+      let pesan = e.message
+      if(pesan.includes("[auth/invalid-email] The email address is badly formatted")){
+        pesan = "Email atau Passwordmu tidak Valid"
+
+      }
+      Alert.alert(pesan,'Mohon Dicek Kembali')
+      console.log(pesan)
+     
     }
   }
 
   const emaillogin = () => {
+    if(email == '' || pass == ''){
+      console.log("ga bisa")
+      Alert.alert("Email atau Passwordmu Kosong", "Silahkan Dicek Kembali")
+      return ;
+    }
     loginbiasa(email,pass)
+  
+
+
   }
   
   const handleEmail = (text) => {

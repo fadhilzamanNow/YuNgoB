@@ -44,7 +44,7 @@ export function AddFriend({route}) {
 
         setFilterUser(filteredFriend); 
         console.log("target : ",filterUser[0])
-
+        inputChange.current.clear()
         
     }
 
