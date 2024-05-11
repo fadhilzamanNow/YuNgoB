@@ -11,16 +11,20 @@ import {MessageList} from './MessageList';
 import MessageHeader from './MessageHeader';
 import { Image } from 'react-native';
 import CryptoJS from "react-native-crypto-js";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import ImagePicker from 'react-native-image-crop-picker';
+import storage from "@react-native-firebase/storage"
+
 
 
 
 export default function ChatRoom() {
 
     let cipherText = CryptoJS.AES.encrypt('my messaage', 'secret key 123').toString();
-    console.log("hash : ", cipherText)
     let bytes = CryptoJS.AES.decrypt(cipherText,'secret key 123')
     let originalText = bytes.toString(CryptoJS.enc.Utf8);
-    console.log("original :", originalText)
+
+    
     const textRef = useRef('');
     const inputRef = useRef();
     const route = useRoute();
@@ -37,6 +41,11 @@ export default function ChatRoom() {
 
         return ;
     },[])
+
+
+    useEffect(() => {
+        console.log("test")
+    })
 
     let getRoomId = (idpengirim,idpenerima) => {
         const sortedIds = [idpengirim,idpenerima].sort();
@@ -76,7 +85,8 @@ export default function ChatRoom() {
         .add({
             messages : encryptMessage,
             senderId : user.userId,
-            createdAt : firestore.Timestamp.now()
+            createdAt : firestore.Timestamp.now(),
+            type : "text"
         }).then(()=> console.log("success"))
         if(inputRef){
             inputRef?.current?.clear();
@@ -103,8 +113,7 @@ export default function ChatRoom() {
                 data.push(documentSnapshot.data())
             });
             setText(data);
-            console.log("datas : " , data);
-            console.log("text : ",data);
+            
             
         });
         return () => unsubscribe();
@@ -112,7 +121,35 @@ export default function ChatRoom() {
     },[])
 
     
+    const findImage = async () => {
+        const openGallery = await ImagePicker.openPicker({
+            width: 300,
+            height: 400,
+            cropping: true
+          }).then(async image => {
+            console.log(image);
+            let imgName = image.path.substring(image.path.lastIndexOf('/')+1)
+            let ext = imgName.split('.').pop();
+            let name = imgName.split('.')[0];
+            let newName = name + Date.now() + '.' + ext;
+            const reference = storage().ref('chatMedia/' + newName)
+            await reference.putFile(image.path);
+            const url = await storage().ref('chatMedia/' + newName).getDownloadURL();
+            console.log(url)
 
+            let encryptMessage = CryptoJS.AES.encrypt(url, 'secret key 123').toString();
+            let roomId = getRoomId(user.userId,users.userId);
+            await firestore().collection('Rooms').doc(roomId).collection('Messages')
+            .add({
+                messages : encryptMessage,
+                senderId : user.userId,
+                createdAt : firestore.Timestamp.now(),
+                type : "image"
+            }).then(()=> console.log("success"))
+          });
+
+        
+    }
     
     
 
@@ -146,7 +183,12 @@ export default function ChatRoom() {
         <View style={{flex : 1, marginLeft : 10}}>
         <TextInput placeholder='Tuliskan .....' onChangeText={handleChange}  ref={inputRef} style={{color : "black", padding : 0}}/>
         </View>
-        <View style={{marginRight : 10}}>
+        <View style={{marginRight : 10,flexDirection : "row", justifyContent : "center", alignItems : "center", columnGap : 5}}>
+        <FontAwesome
+            name='picture-o'
+            color='red'
+            onPress={findImage} 
+            size={20}/>
         <Icon
             
             name='send'

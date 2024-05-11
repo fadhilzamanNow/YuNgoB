@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, Image } from 'react-native'
 import React from 'react'
 import CryptoJS from "react-native-crypto-js"
 
@@ -15,7 +15,16 @@ export function MessageList({texts,user}) {
         <View style={{flexDirection : "row", justifyContent : "flex-end", height : "auto"}} >
             <View style={{flexDirection : "column", padding : 10, backgroundColor : "red", justifyContent : "center", alignItems : "flex-end", borderRadius : 5, marginRight : 10, marginLeft : 50,borderColor : "lightgray", borderWidth :1}}>
                 <View>
-                <Text style={{color : "white", fontSize : 18}}>{encryptMessage}</Text>
+                {
+                texts.type == "text" ? (
+                  <Text style={{color : "white", fontSize : 18}}>{encryptMessage}</Text>
+                ) : (
+                  <Image 
+                    source={{uri : encryptMessage}}
+                    style={{height : 200, width : 200, borderRadius : 5}}
+                  />
+                )
+                }
                 </View>
                 <Text style={{color : "white", fontSize : 10}}>{waktukirim}</Text>
             </View>
@@ -26,7 +35,16 @@ export function MessageList({texts,user}) {
     <View style={{flexDirection : "row", justifyContent : "flex-start", height : "auto"}} >
             <View style={{flexDirection : "column", padding : 10, backgroundColor : "white", justifyContent : "center", alignItems : "flex-end", borderRadius : 5, marginLeft : 10, marginRight : 50, borderColor : "lightgray", borderWidth :1}}>
                 <View>
-                <Text style={{color : "black", fontSize : 16}}>{encryptMessage}</Text>
+                {
+                texts.type == "text" ? (
+                  <Text style={{color : "black", fontSize : 18}}>{encryptMessage}</Text>
+                ) : (
+                  <Image 
+                    source={{uri : encryptMessage}}
+                    style={{height : 200, width : 200, borderRadius : 5}}
+                  />
+                )
+                }
                 </View>
                 <Text style={{color : "black", fontSize : 10}}>{waktukirim}</Text>
             </View>
