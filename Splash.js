@@ -6,7 +6,8 @@ export default function Splash() {
 
   return (
     <View style={{flex : 1, justifyContent : "center", alignItems : "center", backgroundColor : "red"}}>
-        {StatusBar.setHidden(true)}
+           {StatusBar.setHidden(true)}
+
         <View>
             <AntDesign name="wechat" size={200} color="white" />
         </View>

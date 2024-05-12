@@ -173,6 +173,8 @@ export default function LoginPage() {
   }
   return (
     <View style={{flex : 1, backgroundColor : "white"}}>
+             {StatusBar.setHidden(false)}
+
       <StatusBar barStyle="dark-content" backgroundColor="white" />
       {isAuthenticated ? (<Layout user={user} inData={inData} signOut={signOut}/>) : (
       <View style={{flex : 1, flexDirection: "column", alignItems : "center", backgroundColor : "white"}}>
