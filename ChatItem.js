@@ -6,7 +6,6 @@ import CryptoJS from "react-native-crypto-js";
  
 
 
-import { createContext } from 'react';
 
 
 export default function ChatItem({users,user}) {
@@ -39,6 +38,7 @@ export default function ChatItem({users,user}) {
     let pesan = () => {
         if(typeof lastMessage == 'undefined') return 'Loading ...'
         if(lastMessage){
+            if(lastMessage.type == "text"){
             let pesan = CryptoJS.AES.decrypt(lastMessage.messages,'secret key 123')
             let decryptPesan = pesan.toString(CryptoJS.enc.Utf8)
             let decryptPesan2
@@ -50,9 +50,19 @@ export default function ChatItem({users,user}) {
             else{
                 return decryptPesan2
             }
-        }else{
-            return "Ayo mulai percakapanmu dengan " + users.name
+        }else if(lastMessage.type == "image"){
+            if(user.userId == lastMessage.senderId){
+                return "You : Image"
+            }else{
+                return "Image"
+            }
         }
+        
+        }
+        else{
+            return "Ayo mulai percakapanmu dengan " + users.name
+            }
+       
     }
 
     let waktu = () => {

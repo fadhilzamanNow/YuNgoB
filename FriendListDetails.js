@@ -14,7 +14,7 @@ export default function FriendListDetails({info,user}) {
         let hasMatch = false
         if(!querySnapshot.empty){
           querySnapshot.forEach((data)=>{
-            if(data.data().userId == user.userId){
+            if(data.data().pendingId == user.userId){
               console.log("ada data kita cuy")
               hasMatch = true;
             }
@@ -38,11 +38,7 @@ const addFriend = () => {
     console.log("Target Add :", info)
     
     firestore().collection('Users').doc(info.userId).collection('Pending').doc(user.userId).set({
-      email : user.email,
-      name : user.name,
-      profileUrl : user.profileUrl,
-      userId : user.userId,
-      pending : true
+      pendingId : user.userId
   }).then(() => console.log('berhasil menambahkan sebagai pending')).catch((e) => {
     console.log("error",e)
   })

@@ -22,7 +22,7 @@ const MessageHeader = ({users}) => {
     </View>
     <View style={{backgroundColor:"white"}}>
         <Image 
-        source={require('./assets/images/profil.jpg')}
+        source={{uri : users.profileUrl }}
         style={{width : 40, height : 40, borderRadius : 9999}}
         />
     </View>

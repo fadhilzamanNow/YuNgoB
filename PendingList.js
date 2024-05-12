@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, Image } from 'react-native'
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import AntDesign from "react-native-vector-icons/AntDesign"
@@ -15,26 +15,16 @@ export function PendingList({target,asal}) {
 
 
         firestore().collection("Users").doc(asal.userId).collection('Friends').doc(target.userId).set({
-            email : target.email,
-            name : target.name,
-            profileUrl : target.profileUrl,
-            userId : target.userId
+            friendId : target.userId
         }).then(() => console.log("Berhasil ditambahkan pada asal"))
 
 
         firestore().collection("Users").doc(target.userId).collection('Friends').doc(asal.userId).set({
-            email : asal.email,
-            name : asal.name,
-            profileUrl : asal.profileUrl,
-            userId : asal.userId
+            friendId : asal.userId
         }).then(() => console.log("Berhasil ditambahkan pada target"))
 
-        
         firestore().collection("Users").doc(asal.userId).collection('Pending').doc(target.userId).delete().then(
-            ()=> console.log("Berhasil dihapus")
-        )
-        
-
+            ()=> console.log("Berhasil dihapus"))
 
 
         
@@ -44,10 +34,17 @@ export function PendingList({target,asal}) {
         firestore().collection("Users").doc(asal.userId).collection('Pending').doc(target.userId).delete().then(
             ()=> console.log("Berhasil dihapus"))
     }
-
+ 
+    
 
   return (
-    <View style={{borderWidth : 1, marginHorizontal : 20, padding : 20, borderRadius : 10, backgroundColor : "white", flexDirection : "row", alignItems : "center", justifyContent : "space-between"}}>
+    <View style={{borderWidth : 1, marginHorizontal : 20, padding : 20, borderRadius : 10, backgroundColor : "white", flexDirection : "row", alignItems : "center", justifyContent : "space-between", flexWrap : "wrap", rowGap : 20}}>
+                    <View>
+                        <Image 
+                            source={{uri : target.profileUrl}}
+                            style={{height : 100, width : 100, borderRadius : 9999}}
+                        />
+                    </View>
                     <View>
                         <Text style={{color : "black", fontSize : 22}}>{target.name}</Text>
                         <Text>{target.email}</Text>

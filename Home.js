@@ -39,42 +39,55 @@ export default function Home({route}) {
   },[])
 
 
-  let [listFriend,setListFriend] = useState([])
+  let [listFriend,setListFriend] = useState(false)
 
   useEffect(() => {
-
     
+    
+
+
     let unsubscribe = firestore().collection('Users').doc(user.userId).collection('Friends').onSnapshot(
-        (querySnapshot) => {
-          const friendsData = [] 
-  
-          querySnapshot.forEach((documentSnapshot) => {
-            // Process each friend document
-            friendsData.push(documentSnapshot.data())
-  
-          })
-          setListFriend(friendsData);
+      (querySnapshot) => {
+        let getFriendId = []
+        querySnapshot.forEach(
+          (doc) => {
+            getFriendId.push(doc.data().friendId)
+          }
+        )
+        console.log("get friend id ", getFriendId);
+        if(getFriendId.length != 0){
+          firestore().collection('Users').where("userId","in",getFriendId).onSnapshot(
+            (querySnapshot) => {
+              let getFriend = []
+              querySnapshot.forEach((doc) => {
+                getFriend.push(doc.data())
+              }
+            )
+            setListFriend(getFriend)
+            }
+          )
         }
-      )
+        
+      }
+    )
     
-
-      return () => unsubscribe()
-    
-    
+    return () => unsubscribe
 
   },[])
 
   useEffect(()=> {
-
+    console.log("get friend :", listFriend)
   },[listFriend])
   
-    
+     
   
   return (
     <SafeAreaView style={{flex : 1, backgroundColor : "white"}}>
       <View style={{flex : 1}} >
       <ScrollView>
-        {listFriend.length == 0 ? (
+        {listFriend ? (
+            <HomeHeader users={users} user={user} friends={listFriend} />
+        ) : (
           <View style={{borderTopWidth : 1, borderTopColor : "lightgray", flex : 1, justifyContent : "center", alignItems : "center"}}>
             <Text>Selamat Datang, {user.name} </Text>
             <Text>Kamu masih belum memiliki Teman, Ayo Cari Teman</Text>
@@ -84,9 +97,6 @@ export default function Home({route}) {
             </View>
             </TouchableOpacity>
           </View>
-
-        ) : (
-                  <HomeHeader users={users} user={user} friends={listFriend} />
         )}
     </ScrollView>
       </View>

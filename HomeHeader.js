@@ -61,7 +61,7 @@ const HomeHeader = ({users,user,friends}) => {
       
     </View>
       <View style={{flex : 1, backgroundColor : "white"}}>
-          <ChatContainer users={filteredUsers} user={user} friends={filteredUsers}/>
+          <ChatContainer user={user} friends={filteredUsers}/>
         </View>
         </View>
   )

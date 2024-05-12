@@ -11,27 +11,56 @@ export default function Pendings({route}) {
     const {user} = route.params
     const [pendingList,setPendingList] = useState([])
 
-    useEffect(() => {
-        let unsubscribe = firestore().collection('Users').doc(user.userId).collection('Pending').onSnapshot(
-            (documentSnapshot) => {
-                let listPending = []
-                documentSnapshot.forEach((document) => {
-                    listPending.push(document.data())
-                })
-                try{
-                    setPendingList(listPending)
-                    console.log("list pending : ", pendingList)
-                }catch(e){
+    const [orang,setOrang] = useState(false);
 
-                    console.log("error",e )
+    useEffect( () => {
+
+
+
+            let unsubscribe = firestore().collection('Users').doc(user.userId).collection('Pending').onSnapshot(
+                (querySnapshot) => {      
+                    let listUserId = []         
+                    querySnapshot.forEach((doc) => {
+                        listUserId.push(doc.data().pendingId)
+                    })
+                    console.log("list id : ", listUserId)
+                    if(!(listUserId.length == 0)){
+                        firestore().collection('Users').where("userId",'in',listUserId).onSnapshot(
+                            (querySnapshot) => {
+                                let listUser = []
+
+                                querySnapshot.forEach((doc) => {
+                                    listUser.push(doc.data())
+                                })
+                                setOrang(listUser)
+                                console.log("list User : ", listUser)
+  
+                            }
+                        )
+                    }
+                    
                 }
+            )
 
-            }
-        )
-
-        return () => unsubscribe();
-
+          return () => unsubscribe
     },[])
+
+    
+    useEffect(()=>{
+        let angka = []
+        angka.push(1)
+        console.log(angka)
+        console.log("data berubah" ,orang)
+
+
+        return () => angka
+    },[orang])
+
+    
+     
+
+
+
 
     try{
         console.log(user)
@@ -39,21 +68,30 @@ export default function Pendings({route}) {
     catch(e){
         console.log("error",e)
     }
+ 
+
 
     
   return (
     <ScrollView>
+        {orang ? 
+        (
+        <View style={{flex : 1, borderTopColor : "lightgray", borderTopWidth : 1, flexDirection : "column"}}>
+            <View style={{marginTop : 20, flexDirection : "column", rowGap : 20}}>
+              {orang.map((pending,index) => {
+                  return (
+      
+                      <PendingList target={pending} asal={user} key={index}/>
+                  )
+              })}
+            </View>
+        </View>
+        ) : ( 
+        <View style={{flex : 1, alignItems : "center"}}>
+            <Text>Kosong, kasiann dehhh</Text>
+            <Text>Belum ada Orang Yang Minat kwkwwk</Text>
+        </View>) }
     
-    <View style={{flex : 1, borderTopColor : "lightgray", borderTopWidth : 1, flexDirection : "column"}}>
-      <View style={{marginTop : 20, flexDirection : "column", rowGap : 20}}>
-        {pendingList.map((pending,index) => {
-            return (
-
-                <PendingList target={pending} asal={user} />
-            )
-        })}
-      </View>
-    </View>
     </ScrollView>
   )
 }

@@ -157,7 +157,7 @@ export default function ChatRoom() {
     
   return (
     <View style={{flex : 1, backgroundColor : "white"}}>
-      <View style={{borderBottomWidth : 1, borderBottomColor : "lightgray"}}>
+      <View style={{borderBottomWidth : 1, borderBottomColor : "lightgray", paddingVertical : 5}}>
         <MessageHeader users={users} />
       </View>
       <ScrollView ref={scrollViewRef}>

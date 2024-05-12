@@ -9,6 +9,7 @@ import Dummy2 from './Dummy2';
 import Settings from './Settings';
 import Fontisto from "react-native-vector-icons/Fontisto"
 import Pendings from './Pendings';
+import InformasiPengguna from './InformasiPengguna';
 
 
 const Drawer = createDrawerNavigator();
@@ -40,6 +41,11 @@ export default function LayoutSettings({route}) {
             }}
                 
             />
+            <Drawer.Screen name="Informasi Aplikasi" component={InformasiPengguna} options={{
+                headerTintColor : "red",
+                drawerActiveTintColor : "red",
+                headerTitleAlign : "center"
+            }}/>
       </Drawer.Navigator>
       
   )

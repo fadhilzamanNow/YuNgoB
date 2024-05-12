@@ -2,7 +2,7 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import ChatItem from './ChatItem'
 
-export const ChatContainer = ({users,user,friends}) => {
+export const ChatContainer = ({user,friends}) => {
   return (
     <View>
       {friends.map((friends,index)=> {

@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, StatusBar, TextInput, TouchableOpacity, KeyboardAvoidingView, ScrollView, Alert } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import  MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -8,6 +8,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import auth from '@react-native-firebase/auth';
 import { useRef } from 'react';
 import firestore from '@react-native-firebase/firestore';
+import ImagePicker from 'react-native-image-crop-picker';
+import storage from "@react-native-firebase/storage"
 
 
 
@@ -89,13 +91,43 @@ const DaftarPage = () => {
     }
 
     const daftar = () => {
-        buatAkun(email,userreg,password,profile);
+        buatAkun(email,userreg,password,photoRef);
         if(inputEmail || inputPass || inputProf || inputUser){
             inputEmail?.current?.clear();
             inputPass?.current?.clear();
             inputProf?.current?.clear();
             inputUser?.current?.clear();
         }
+    }
+
+
+    const [photoRef,setPhotoRef] = useState('Gambar');
+
+    useEffect(()=> {    
+        console.log("photo : ", photoRef)
+    },[photoRef])
+
+    const pasangFoto = async () => {
+        ImagePicker.openPicker({
+            width: 300,
+            height: 400,
+            cropping: true
+          }).then(async image => {
+            console.log(image);
+            let imgName = image.path.substring(image.path.lastIndexOf('/')+1)
+            let ext = imgName.split('.').pop();
+            let name = imgName.split('.')[0];
+            let newName = name + Date.now() + '.' + ext;
+            const reference = storage().ref('setProf/' + newName)
+            await reference.putFile(image.path);
+            const url = await storage().ref('setProf/' + newName).getDownloadURL();
+            console.log("ini url " ,url)
+            setPhotoRef(url);
+          });
+
+
+
+
     }
   return (
     <SafeAreaView style={{backgroundColor : "white", flex : 1}}>
@@ -140,13 +172,15 @@ const DaftarPage = () => {
                 <View style={{marginLeft : 5}}>
                     <Feather name='key' size={32} color="lightgray" />
                 </View>
-                <TextInput placeholder="Password" style={{flex : 1}} onChangeText={handlePassword} ref={inputPass} secureTextEntry/>
+                <TextInput placeholder="Password" style={{flex : 1}} onChangeText={handlePassword} ref={inputPass} secureTextEntry  />
             </View>
             <View style={{borderWidth : 1, borderRadius : 10, flexDirection : "row", alignItems : "center", columnGap : 5, borderColor : "lightgray"}}>
+                <TouchableOpacity onPress={pasangFoto}>
                 <View style={{marginLeft : 5}}>
                     <AntDesign name='picture' size={32} color="lightgray" />
-                </View>
-                <TextInput placeholder="profileUrl" style={{flex : 1}} onChangeText={handleProfile} ref={inputProf} />
+                </View >
+                </TouchableOpacity>
+                <TextInput placeholder="profileUrl" style={{flex : 1}} onChangeText={handleProfile} ref={inputProf} value={photoRef}/>
             </View>
             <View style={{alignItems : "center"}}>
                 <View style={{flexDirection : "row"}}>
