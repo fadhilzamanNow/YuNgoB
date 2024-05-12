@@ -38,6 +38,9 @@ export default function Pendings({route}) {
                             }
                         )
                     }
+                    else{
+                        setOrang([])
+                    }
                     
                 }
             )
@@ -56,7 +59,7 @@ export default function Pendings({route}) {
         return () => angka
     },[orang])
 
-    
+    console.log("sisa orang : ", orang)
      
 
 
@@ -74,7 +77,7 @@ export default function Pendings({route}) {
     
   return (
     <ScrollView>
-        {orang ? 
+        {orang.length > 0 ? 
         (
         <View style={{flex : 1, borderTopColor : "lightgray", borderTopWidth : 1, flexDirection : "column"}}>
             <View style={{marginTop : 20, flexDirection : "column", rowGap : 20}}>

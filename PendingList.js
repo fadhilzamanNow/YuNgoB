@@ -35,7 +35,7 @@ export function PendingList({target,asal}) {
             ()=> console.log("Berhasil dihapus"))
     }
  
-    
+
 
   return (
     <View style={{borderWidth : 1, marginHorizontal : 20, padding : 20, borderRadius : 10, backgroundColor : "white", flexDirection : "row", alignItems : "center", justifyContent : "space-between", flexWrap : "wrap", rowGap : 20}}>
@@ -45,9 +45,9 @@ export function PendingList({target,asal}) {
                             style={{height : 100, width : 100, borderRadius : 9999}}
                         />
                     </View>
-                    <View>
-                        <Text style={{color : "black", fontSize : 22}}>{target.name}</Text>
-                        <Text>{target.email}</Text>
+                    <View style={{flexWrap : "wrap"}}>
+                        <Text style={{color : "black", fontSize : 22, flexWrap : "wrap"}}>{target.name}</Text>
+                        <Text style={{flexWrap : "wrap"}}>{target.email}</Text>
                     </View>
                     <View style={{flexDirection : "row", columnGap : 10}}>
                     <TouchableOpacity style={{backgroundColor : "lightgreen", paddingHorizontal : 20, paddingVertical : 10, borderRadius : 5}} onPress={handleAccept}>

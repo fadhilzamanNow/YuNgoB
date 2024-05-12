@@ -53,6 +53,13 @@ export function AddFriend({route}) {
     let handleChange = (text) => {
         inputChange.current = text
         setFilter(inputChange.current)
+
+        /* const filteredFriend = users.filter((friend)=> {
+          return friend.email.toLowerCase().includes(filter.toLowerCase())
+        })
+
+        setFilterUser(filteredFriend); 
+        console.log("target : ",filterUser[0]) */
     }
 
 

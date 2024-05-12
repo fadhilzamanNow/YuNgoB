@@ -32,7 +32,7 @@ export default function LayoutSettings({route}) {
 
                 
             }} />
-            <Drawer.Screen name="Pendings" component={Pendings} initialParams={{user : user, signOut : signOut}} options={{
+            <Drawer.Screen name="Friend Request" component={Pendings} initialParams={{user : user, signOut : signOut}} options={{
                 headerTitleAlign : "center",
                 headerTitleStyle : {color : "black", fontWeight : 500},
                 drawerActiveTintColor : "red",
