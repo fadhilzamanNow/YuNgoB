@@ -11,6 +11,8 @@ import { useContext } from 'react'
 import { createContext } from 'react'
 import DaftarPage from './DaftarPage'
 import Home from './Home'
+import Initial from './Initial'
+import Splash from './Splash'
 
 
 export const ThemeContext = createContext()
@@ -26,13 +28,15 @@ export default function App() {
   return (
     <NavigationContainer>
       <ThemeContext.Provider value={info} >
-      <Stack.Navigator initialRouteName='LoginPage' screenOptions={{headerShown : false}}>
+      <Stack.Navigator initialRouteName='Initial' screenOptions={{headerShown : false}}>
         <Stack.Screen name="Other" component={Other} />
         <Stack.Screen name="Dummy" component={Dummy} />
         <Stack.Screen name="LoginPage" component={LoginPage} />
         <Stack.Screen name="ChatRoom" component={ChatRoom} options={{ title : ''}}/>
         <Stack.Screen name="ChatItem" component={ChatItem}  />
         <Stack.Screen name="DaftarPage" component={DaftarPage} />
+        <Stack.Screen name="Initial" component={Initial} />
+        <Stack.Screen name="Splash" component={Splash} />
       </Stack.Navigator>
       </ThemeContext.Provider>
     </NavigationContainer>
